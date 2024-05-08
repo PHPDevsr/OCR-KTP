@@ -84,8 +84,8 @@ time_elapsed | Waktu yang pemrosesan yang dibutuhkan (detik)
     "message": "Proses OCR Berhasil",
     "result": {
         "nik": "1234567890123456",
-        "nama": "RIJAL MUHYIDIN",
-        "tempat_lahir": "PALEMBANG",
+        "nama": "DENNY SEPTIAN",
+        "tempat_lahir": "JAKARTA",
         "tgl_lahir": "10-10-1999",
         "jenis_kelamin": "LAKI-LAKI",
         "agama": "ISLAM",
