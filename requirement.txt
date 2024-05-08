@@ -1,8 +1,8 @@
 flask>=3.0.3
-tensorflow=>2.16.1
-pytesseract=>0.3.10
-opencv-contrib-python=>4.9.0.80
-textdistance=>4.6.2
-numpy=>1.26.4
+tensorflow>=2.16.1
+pytesseract>=0.3.10
+opencv-contrib-python>=4.9.0.80
+textdistance>=4.6.2
+numpy>=1.26.4
 pandas>=2.2.2
-pillow=>10.3.0
+pillow>=10.3.0
