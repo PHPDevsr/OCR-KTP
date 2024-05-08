@@ -1,0 +1,9 @@
+!data/cnn/.gitkeep
+!images/test/.gitkeep
+!images/train/.gitkeep
+!images/valid/.gitkeep
+
+data/cnn/model.h5
+images/test/*
+images/train/*
+images/valid/*
