@@ -1,6 +1,11 @@
+# Model
 data/cnn/model.h5
 !data/cnn/.gitkeep
 
+# Environment
+env/*
+
+# Images
 images/test/*
 images/train/*
 images/valid/*
