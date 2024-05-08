@@ -5,4 +5,3 @@ pandas>=2.2.2
 pillow>=10.3.0
 pytesseract>=0.3.10
 textdistance>=4.6.2
-tensorflow>=2.16.1
