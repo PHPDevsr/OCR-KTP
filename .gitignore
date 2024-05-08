@@ -5,6 +5,9 @@ data/cnn/model.h5
 # Environment
 env/*
 
+# Python Cache
+__pycache__/*
+
 # Images
 images/test/*
 images/train/*
