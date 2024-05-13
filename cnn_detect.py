@@ -4,7 +4,7 @@ from tensorflow.keras.preprocessing.image import array_to_img, img_to_array
 from tensorflow.keras.models import load_model
 import numpy as np
 
-saved_model = load_model("data/cnn/model.h5", compile=False)
+saved_model = load_model("data/cnn/model.keras", compile=False)
 saved_model.make_predict_function()
 
 def main(image):

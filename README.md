@@ -12,7 +12,7 @@ pip install numpy
 ```
 * OpenCV
 ```
-pip install opencv-contrib-python==4.5.1.48
+pip install opencv-python
 ```
 * Pandas
 ```

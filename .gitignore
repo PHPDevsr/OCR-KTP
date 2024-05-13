@@ -1,5 +1,5 @@
 # Model
-data/cnn/model.h5
+data/cnn/model.keras
 !data/cnn/.gitkeep
 
 # Environment

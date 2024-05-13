@@ -48,4 +48,4 @@ model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy']
 model.fit(train_ds, steps_per_epoch=train_ds.cardinality().numpy() // batch_size, epochs=image_count, validation_data=val_ds, validation_steps=val_ds.cardinality().numpy() // batch_size)
 
 # Save the model
-model.save('data/cnn/model.h5')
+model.save('data/cnn/model.keras')
