@@ -13,7 +13,7 @@ def main(image):
     img = np.expand_dims(img, axis=0)
     prediction = saved_model.predict(img)
 
-    print("Prediction :\n"+prediction)
+    print(prediction)
 
     # 0 means KTP is detected
     return prediction[0][0] == 0
