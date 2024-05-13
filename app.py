@@ -36,7 +36,7 @@ def upload_file():
             if isimagektp:
                 (nik, nama, tempat_lahir, tgl_lahir, jenis_kelamin, agama,
                 status_perkawinan, provinsi, kabupaten, alamat, rt_rw, 
-                kel_desa, kecamatan, pekerjaan, kewarganegaraan) = ocr.main(image)
+                kel_desa, kecamatan, pekerjaan, kewarganegaraan, berlaku_hingga) = ocr.main(image)
 
                 finish_time = time.time() - start_time
 
@@ -53,12 +53,13 @@ def upload_file():
                         'nik': str(nik),
                         'nama': str(nama),
                         'tempat_lahir': str(tempat_lahir),
-                        'tgl_lahir': str(tgl_lahir),
+                        'tanggal_lahir': str(tgl_lahir),
                         'jenis_kelamin': str(jenis_kelamin),
                         'agama': str(agama),
                         'status_perkawinan': str(status_perkawinan),
                         'pekerjaan': str(pekerjaan),
                         'kewarganegaraan': str(kewarganegaraan),
+                        'berlaku_hingga': str(berlaku_hingga),
                         'alamat': {
                             'name': str(alamat),
                             'rt_rw': str(rt_rw),

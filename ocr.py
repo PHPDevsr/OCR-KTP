@@ -92,7 +92,7 @@ def ocr_raw(image):
     pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
     result_raw = pytesseract.image_to_string(threshed, lang="ind", config='--psm 4 --oem 3')
 
-    print(result_raw)
+    print("RAW Result :\n"+result_raw)
 
     return result_raw, id_number
 
@@ -237,7 +237,6 @@ def main(image):
 
     provinsi = ""
     kabupaten = ""
-    nik = ""
     nama = ""
     tempat_lahir = ""
     tgl_lahir = ""
@@ -250,8 +249,7 @@ def main(image):
     kecamatan = ""
     pekerjaan = ""
     kewarganegaraan = ""
-
-    # print("NIK: " + str(id_number))
+    berlaku_hingga = ""
 
     loc2index = dict()
     for i, tmp_line in enumerate(result_list):
@@ -434,6 +432,13 @@ def main(image):
             if len(kewarganegaraan.split()) == 1:
                 kewarganegaraan = re.sub('[^A-Z.]', '', kewarganegaraan)
 
+        if 'Berlaku Hingga' in tmp_data:
+            berlaku_hingga = ' '.join(tmp_data[2:])
+            berlaku_hingga = re.sub('[^A-Z. ]', '', berlaku_hingga)
+
+            if len(berlaku_hingga.split()) == 1:
+                berlaku_hingga = re.sub('[^A-Z.]', '', berlaku_hingga)
+
         if 'Tempat/Tgl Lahir' in tmp_data:
             join_tmp = ' '.join(tmp_data)
 
@@ -495,7 +500,7 @@ def main(image):
 
     return (id_number, nama, tempat_lahir, tgl_lahir, jenis_kelamin, 
         agama, status_perkawinan, provinsi, kabupaten, alamat, rt_rw, 
-        kel_desa, kecamatan, pekerjaan, kewarganegaraan)
+        kel_desa, kecamatan, pekerjaan, kewarganegaraan, berlaku_hingga)
 
 if __name__ == '__main__':
     main(sys.argv[1])
