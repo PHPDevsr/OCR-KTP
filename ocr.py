@@ -90,7 +90,7 @@ def ocr_raw(image):
     th, threshed = cv2.threshold(blackhat, 130, 255, cv2.THRESH_TRUNC)
 
     pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
-    result_raw = pytesseract.image_to_string(threshed, lang="ind")
+    result_raw = pytesseract.image_to_string(threshed, lang="ind", config='--psm 4 --oem 1')
 
     print("RAW Result :\n"+result_raw)
 
