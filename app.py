@@ -8,7 +8,6 @@ from flask import Flask, request, jsonify
 from flask import Flask, render_template, request, flash
 from PIL import Image
 from flask import Flask, render_template, request, flash
-from keras.preprocessing import image
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
