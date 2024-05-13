@@ -1,6 +1,7 @@
 flask>=3.0.3
-numpy>=1.26.4
+tensorflow>=2.16.1
 opencv-python>=4.9.0.80
+numpy>=1.26.4
 pandas>=2.2.2
 pillow>=10.3.0
 pytesseract>=0.3.10
