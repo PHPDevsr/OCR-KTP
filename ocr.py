@@ -350,7 +350,7 @@ def main(image):
                     tmp_data[tmp_index + 1] = religion_df[0].values[arg_max]
                     agama = tmp_data[tmp_index + 1]
 
-        if 'Status' in tmp_data or 'Perkawinan' in tmp_data:
+        if 'Status Perkawinan' in tmp_data:
             try:
                 status_perkawinan = ' '.join(tmp_data[2:])
                 status_perkawinan = re.findall('\s+([A-Za-z]+)', status_perkawinan)
@@ -409,7 +409,7 @@ def main(image):
                 if len(kecamatan.split()) == 1:
                     kecamatan = re.sub('[^A-Z0-9.]', '', kecamatan).strip()
 
-        if 'Jenis' in tmp_data or 'Kelamin' in tmp_data:
+        if 'Jenis Kelamin' in tmp_data:
             for tmp_index, tmp_word in enumerate(tmp_data[2:]):
                 tmp_sim_list = [textdistance.damerau_levenshtein.normalized_similarity(tmp_word, tmp_word_) for tmp_word_ in jenis_kelamin_df[0].values]
 
@@ -434,7 +434,7 @@ def main(image):
             if len(kewarganegaraan.split()) == 1:
                 kewarganegaraan = re.sub('[^A-Z.]', '', kewarganegaraan)
 
-        if 'Tempat' in tmp_data or 'Tgl' in tmp_data or 'Lahir' in tmp_data:
+        if 'Tempat/Tgl Lahir' in tmp_data:
             join_tmp = ' '.join(tmp_data)
 
             match_tgl1 = re.search("([0-9]{2}—[0-9]{2}—[0-9]{4})", join_tmp)
