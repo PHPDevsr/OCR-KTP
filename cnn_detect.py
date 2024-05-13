@@ -1,7 +1,7 @@
 import sys
-from keras.preprocessing import image
-from keras.preprocessing.image import array_to_img, img_to_array
-from keras.models import load_model
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.preprocessing.image import array_to_img, img_to_array
+from tensorflow.keras.models import load_model
 import numpy as np
 
 saved_model = load_model("data/cnn/model.h5", compile=False)
