@@ -235,8 +235,6 @@ def main(image):
     result_raw, id_number = ocr_raw(image)
     result_list = strip_op(result_raw)
 
-    print("REAL RESULT :\n"+result_list)
-
     provinsi = ""
     kabupaten = ""
     nama = ""
