@@ -90,7 +90,7 @@ def ocr_raw(image):
     th, threshed = cv2.threshold(blackhat, 130, 255, cv2.THRESH_TRUNC)
 
     pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
-    result_raw = pytesseract.image_to_string(threshed, lang="ind", config='--psm 3 --oem 3')
+    result_raw = pytesseract.image_to_string(threshed, lang="ind", config='--psm 4 --oem 4')
 
     print("RAW Result :\n"+result_raw)
 
@@ -234,6 +234,8 @@ def main(image):
     jenis_kelamin_df = pd.read_csv(JENIS_KELAMIN_REC_PATH, header=None)
     result_raw, id_number = ocr_raw(image)
     result_list = strip_op(result_raw)
+
+    print("REAL RESULT :\n"+result_list)
 
     provinsi = ""
     kabupaten = ""
