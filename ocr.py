@@ -64,21 +64,35 @@ def automatic_brightness_and_contrast(image, clip_hist_percent=10):
 def ocr_raw(image):
     # img_raw = cv2.imread(image_path)
     # image = automatic_brightness_and_contrast(image)
-    image = cv2.imread(image, cv2.IMREAD_GRAYSCALE)
-    img_gray = image
 
-    id_number = return_id_number(image, img_gray)
+    image = cv2.resize(image, (50 * 16, 500))
+    # cv2.imshow("test1", image)
+
+    # image = automatic_brightness_and_contrast(image)
+
+    img_gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+    # img_gray = cv2.equalizeHist(img_gray)
+    # img_gray = cv2.fastNlMeansDenoising(img_gray, None, 3, 7, 21)
+
+    rectKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (25, 7))
+    sqKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (21, 21))
+    # smooth the image using a 3x3 Gaussian blur and then apply a
+    # blackhat morpholigical operator to find dark regions on a light
+    # background
+    gray = cv2.GaussianBlur(img_gray, (3, 3), 0)
+    blackhat = cv2.morphologyEx(img_gray, cv2.MORPH_BLACKHAT, rectKernel)
+
+    id_number = return_id_number(image, blackhat)
     if id_number == "":
         raise Exception("KTP tidak terdeteksi")
 
-    th, threshed = cv2.threshold(img_gray, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-    # cv2.fillPoly(blackhat, pts=[np.asarray([(550, 150), (550, 499), (798, 499), (798, 150)])], color=(255, 255, 255))
-    # th, threshed = cv2.threshold(blackhat, 130, 255, cv2.THRESH_BINARY | cv2.THRESH_TRUNC)
+    cv2.fillPoly(blackhat, pts=[np.asarray([(550, 150), (550, 499), (798, 499), (798, 150)])], color=(255, 255, 255))
+    th, threshed = cv2.threshold(blackhat, 130, 255, cv2.THRESH_BINARY | cv2.THRESH_TRUNC)
 
     pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
     result_raw = pytesseract.image_to_string(threshed, lang="ind", config='--psm 4 --oem 3')
 
-    print("RAW Result :\n", result_raw)
+    print("RAW Result :\n"+result_raw)
 
     return result_raw, id_number
 
@@ -237,6 +251,9 @@ def main(image):
     berlaku_hingga = ""
 
     for tmp_data in result_list:
+        if '—' in tmp_data:
+            tmp_data.remove('—')
+
         if 'PROVINSI' in tmp_data:
             provinsi = ' '.join(tmp_data[1:])
             provinsi = re.sub('[^A-Z. ]', '', provinsi)
