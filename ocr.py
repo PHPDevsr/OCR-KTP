@@ -63,7 +63,7 @@ def automatic_brightness_and_contrast(image, clip_hist_percent=10):
 
 def ocr_raw(image):
     # img_raw = cv2.imread(image_path)
-    # image = automatic_brightness_and_contrast(image)
+    image = automatic_brightness_and_contrast(image)
 
     image = cv2.resize(image, (50 * 16, 500))
     # cv2.imshow("test1", image)
@@ -87,7 +87,7 @@ def ocr_raw(image):
         raise Exception("KTP tidak terdeteksi")
 
     cv2.fillPoly(blackhat, pts=[np.asarray([(550, 150), (550, 499), (798, 499), (798, 150)])], color=(255, 255, 255))
-    th, threshed = cv2.threshold(blackhat, 130, 255, cv2.THRESH_BINARY | cv2.THRESH_TRUNC)
+    th, threshed = cv2.threshold(blackhat, 130, 255, cv2.THRESH_TRUNC)
 
     pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
     result_raw = pytesseract.image_to_string(threshed, lang="ind", config='--psm 4 --oem 3')
@@ -250,7 +250,45 @@ def main(image):
     kewarganegaraan = ""
     berlaku_hingga = ""
 
-    for tmp_data in result_list:
+    loc2index = dict()
+    for i, tmp_line in enumerate(result_list):
+        for j, tmp_word in enumerate(tmp_line.split(' ')):
+            tmp_sim_list = [textdistance.damerau_levenshtein.normalized_similarity(tmp_word_, tmp_word.strip(':')) for tmp_word_ in raw_df[0].values]
+
+            tmp_sim_np = np.asarray(tmp_sim_list)
+            arg_max = np.argmax(tmp_sim_np)
+
+            if tmp_sim_np[arg_max] >= 0.6:
+                loc2index[(i, j)] = arg_max
+
+    last_result_list = []
+    useful_info = False
+
+    for i, tmp_line in enumerate(result_list):
+        tmp_list = []
+        for j, tmp_word in enumerate(tmp_line.split(' ')):
+            tmp_word = tmp_word.strip(':')
+
+            if(i, j) in loc2index:
+                useful_info = True
+                if loc2index[(i, j)] == NEXT_LINE:
+                    last_result_list.append(tmp_list)
+                    tmp_list = []
+                tmp_list.append(raw_df[0].values[loc2index[(i, j)]])
+                if loc2index[(i, j)] in NEED_COLON:
+                    tmp_list.append(':')
+            elif tmp_word == ':' or tmp_word =='':
+                continue
+            else:
+                tmp_list.append(tmp_word)
+
+        if useful_info:
+            if len(last_result_list) > 2 and ':' not in tmp_list:
+                last_result_list[-1].extend(tmp_list)
+            else:
+                last_result_list.append(tmp_list)
+
+    for tmp_data in last_result_list:
         if '—' in tmp_data:
             tmp_data.remove('—')
 
