@@ -65,7 +65,7 @@ def ocr_raw(image):
     # img_raw = cv2.imread(image_path)
     # image = automatic_brightness_and_contrast(image)
 
-    # image = cv2.resize(image, (50 * 16, 500))
+    image = cv2.resize(image, (50 * 16, 500))
     # cv2.imshow("test1", image)
 
     # image = automatic_brightness_and_contrast(image)
@@ -86,8 +86,10 @@ def ocr_raw(image):
     if id_number == "":
         raise Exception("KTP tidak terdeteksi")
 
-    cv2.fillPoly(blackhat, pts=[np.asarray([(550, 150), (550, 499), (798, 499), (798, 150)])], color=(255, 255, 255))
-    th, threshed = cv2.threshold(blackhat, 130, 255, cv2.THRESH_BINARY | cv2.THRESH_TRUNC)
+    image = cv2.imread(image, cv2.IMREAD_GRAYSCALE)
+    th, threshed = cv2.threshold(img_gray, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+    # cv2.fillPoly(blackhat, pts=[np.asarray([(550, 150), (550, 499), (798, 499), (798, 150)])], color=(255, 255, 255))
+    # th, threshed = cv2.threshold(blackhat, 130, 255, cv2.THRESH_BINARY | cv2.THRESH_TRUNC)
 
     pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
     result_raw = pytesseract.image_to_string(threshed, lang="ind", config='--psm 4 --oem 3')
