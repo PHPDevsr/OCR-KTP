@@ -64,7 +64,7 @@ def automatic_brightness_and_contrast(image, clip_hist_percent=10):
 def ocr_raw(image):
     # image = cv2.imread(image)
     image = cv2.resize(image, (50 * 16, 500))
-    image = automatic_brightness_and_contrast(image, 6)
+    image = automatic_brightness_and_contrast(image, 5)
     # cv2.imshow("test1", image)
 
     # image = automatic_brightness_and_contrast(image)
@@ -86,10 +86,10 @@ def ocr_raw(image):
         raise Exception("KTP tidak terdeteksi")
 
     cv2.fillPoly(blackhat, pts=[np.asarray([(550, 150), (550, 499), (798, 499), (798, 150)])], color=(255, 255, 255))
-    th, threshed = cv2.threshold(blackhat, 130, 255, cv2.THRESH_TRUNC)
+    th, threshed = cv2.threshold(blackhat, 130, 255, cv2.THRESH_BINARY | cv2.THRESH_TRUNC)
 
     pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
-    result_raw = pytesseract.image_to_string(threshed, lang="ind", config='--psm 4 --oem 3')
+    result_raw = pytesseract.image_to_string(threshed, lang="ind")
 
     print("RAW Result :\n"+result_raw)
 
