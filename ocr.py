@@ -97,8 +97,13 @@ def ocr_raw(image):
 
 def strip_op(result_raw):
     result_list = result_raw.split('\n')
+    new_result_list = []
 
-    return result_list
+    for tmp_result in result_list:
+        if tmp_result.strip(' '):
+            new_result_list.append(tmp_result)
+
+    return new_result_list
 
 def sort_contours(cnts, method="left-to-right"):
     reverse = False
