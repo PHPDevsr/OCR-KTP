@@ -87,7 +87,7 @@ def ocr_raw(image):
         raise Exception("KTP tidak terdeteksi")
 
     cv2.fillPoly(blackhat, pts=[np.asarray([(550, 150), (550, 499), (798, 499), (798, 150)])], color=(255, 255, 255))
-    th, threshed = cv2.threshold(blackhat, 130, 255, cv2.THRESH_TRUNC)
+    th, threshed = cv2.threshold(blackhat, 130, 255, cv2.THRESH_BINARY | cv2.THRESH_TRUNC)
 
     pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
     result_raw = pytesseract.image_to_string(threshed, lang="ind", config='--psm 4 --oem 3')
@@ -98,13 +98,8 @@ def ocr_raw(image):
 
 def strip_op(result_raw):
     result_list = result_raw.split('\n')
-    new_result_list = []
 
-    for tmp_result in result_list:
-        if tmp_result.strip(' '):
-            new_result_list.append(tmp_result)
-
-    return new_result_list
+    return result_list
 
 def sort_contours(cnts, method="left-to-right"):
     reverse = False
@@ -232,10 +227,12 @@ def main(image):
     raw_df = pd.read_csv(LINE_REC_PATH, header=None)
     religion_df = pd.read_csv(RELIGION_REC_PATH, header=None)
     jenis_kelamin_df = pd.read_csv(JENIS_KELAMIN_REC_PATH, header=None)
+    replace_table = str.maketrans({'—': '', '“': '', '.': '', ':': '', '|': '', '/': ''})
+    remove_dash = str.maketrans({'-': ' '})
     result_raw, id_number = ocr_raw(image)
     result_list = strip_op(result_raw)
 
-    print("REAL RESULT RAW : ", result_list)
+    print("REAL RESULT RAW : ", result_raw)
 
     provinsi = ""
     kabupaten = ""
