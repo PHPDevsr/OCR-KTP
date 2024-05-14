@@ -62,10 +62,9 @@ def automatic_brightness_and_contrast(image, clip_hist_percent=10):
 # ------------------------------------------------------------------------------
 
 def ocr_raw(image):
-    # img_raw = cv2.imread(image_path)
-    image = automatic_brightness_and_contrast(image)
-
+    image = cv2.imread(image)
     image = cv2.resize(image, (50 * 16, 500))
+    image = automatic_brightness_and_contrast(image)
     # cv2.imshow("test1", image)
 
     # image = automatic_brightness_and_contrast(image)
